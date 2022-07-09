@@ -21,6 +21,7 @@
     font-size: 1.5em;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
+    outline: none;
 }
 
 /* .navbar a:hover{
@@ -39,4 +40,5 @@
     color: red;
     text-decoration: underline;
     transition: 100ms;
+    outline: none;
 }

@@ -1,49 +1,24 @@
-import React, { useState } from "react";
+import { Link, useResolvedPath, useMatch } from "react-router-dom";
 import './Navbar.css'
-import PropTypes from 'prop-types';
 
-function Navbar(props){
-
-    let [select, setSelect] = useState([0,0,0]);
-    let setConfig = {
-        0:"nav-element",
-        1:"navbar-select"
-    };
-
-    let names = ["nav-element","nav-element","nav-element"];
-    for(let i=0;i<props.select.length;i++){
-        if(props.select[i]===1){
-            names[i] = setConfig[1];
-        }else{
-            names[i] = setConfig[0];
-        }
-    }
-
-    return (
-        <div className="navbar">
-
-            <div className={names[0]}>
-                <a id="0" href="/">Home</a>
-            </div>
-
-            <div className={names[1]}>
-                <a id="1" href="/tasks">Tasks</a>
-            </div>
-
-            <div className={names[2]}>
-                <a id="2" href="/about">About</a>
-            </div>
-            
-        </div>
+export default function Navbar(){
+    return(
+        <nav className="navbar">
+            <CustomElement to={"/"} children="Home" />
+            <CustomElement to={"/about"} children="About" />
+            <CustomElement to={"/tasks"} children="Tasks" />
+        </nav>
     );
 }
 
-Navbar.defaultProps = {
-    select: "1"
-};
-
-Navbar.propTypes = {
-    select: PropTypes.string.isRequired,
-};
-
-export default Navbar;
+function CustomElement({to,children, ...props}){
+    let resolvedPath = useResolvedPath(to);
+    let isActive = useMatch({path: resolvedPath.pathname});
+    return (
+        <div className={isActive?"navbar-select":"nav-element"}>
+            <Link to={to} {...props}>
+                {children}
+            </Link>
+        </div>
+    );
+}
